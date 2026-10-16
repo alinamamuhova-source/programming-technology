@@ -6,9 +6,9 @@
 
 class Base {
 public:
-    Base() { std::cout << "Base constructor called\n"; }
-    Base(const Base& other) { std::cout << "Base copy constructor called\n"; }
-    virtual ~Base() { std::cout << "Base destructor called\n"; }
+    Base() { std::cout << "Вызван конструктор по умолчанию класса Base\n"; }
+    Base(const Base& other) { std::cout << "Вызван конструктор копирования класса Base\n"; }
+    virtual ~Base() { std::cout << "Вызван деструктор класса Base\n"; }
 
     virtual void add(int value) = 0;
     virtual void remove() = 0;

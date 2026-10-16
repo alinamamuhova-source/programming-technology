@@ -17,8 +17,8 @@ public:
     List(const List& other);
     ~List() override;
 
-    void add(int value) override; // Добавление в конец
-    void remove() override;       // Удаление из начала
+    void add(int value) override;
+    void remove() override;
     void print() const override;
     void save(std::ofstream& out) const override;
     void load(std::ifstream& in) override;

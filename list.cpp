@@ -1,11 +1,11 @@
 #include "List.h"
 
 List::List() : head(nullptr), tail(nullptr), size(0) {
-    std::cout << "List default constructor called\n";
+    std::cout << "Вызван конструктор по умолчанию класса List\n";
 }
 
 List::List(const List& other) : head(nullptr), tail(nullptr), size(0) {
-    std::cout << "List copy constructor called\n";
+    std::cout << "Вызван конструктор копирования класса List\n";
     Node* current = other.head;
     while (current) {
         add(current->data);
@@ -14,7 +14,7 @@ List::List(const List& other) : head(nullptr), tail(nullptr), size(0) {
 }
 
 List::~List() {
-    std::cout << "List destructor called\n";
+    std::cout << "Вызван деструктор класса List\n";
     while (head) {
         Node* temp = head;
         head = head->next;
@@ -34,7 +34,7 @@ void List::add(int value) {
 }
 
 void List::remove() {
-    if (!head) throw std::runtime_error("Cannot remove from empty List");
+    if (!head) throw std::runtime_error("Ошибка: Невозможно удалить элемент из пустого списка (List)");
     Node* temp = head;
     head = head->next;
     if (!head) tail = nullptr;
@@ -43,7 +43,7 @@ void List::remove() {
 }
 
 void List::print() const {
-    std::cout << "List elements: ";
+    std::cout << "Элементы списка (List): ";
     Node* current = head;
     while (current) {
         std::cout << current->data << " ";
@@ -73,14 +73,14 @@ void List::load(std::ifstream& in) {
 }
 
 void List::setValue(int index, int value) {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in List::setValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в List::setValue");
     Node* current = head;
     for (int i = 0; i < index; ++i) current = current->next;
     current->data = value;
 }
 
 int List::getValue(int index) const {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in List::getValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в List::getValue");
     Node* current = head;
     for (int i = 0; i < index; ++i) current = current->next;
     return current->data;
