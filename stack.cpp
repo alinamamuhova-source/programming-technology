@@ -1,12 +1,11 @@
 #include "Stack.h"
 
 Stack::Stack() : top(nullptr), size(0) {
-    std::cout << "Stack default constructor called\n";
+    std::cout << "Вызван конструктор по умолчанию класса Stack\n";
 }
 
 Stack::Stack(const Stack& other) : top(nullptr), size(0) {
-    std::cout << "Stack copy constructor called\n";
-    // Для копирования стека сохраняем элементы во временный массив
+    std::cout << "Вызван конструктор копирования класса Stack\n";
     int* temp = new int[other.size];
     Node* current = other.top;
     for (int i = other.size - 1; i >= 0; --i) {
@@ -20,7 +19,7 @@ Stack::Stack(const Stack& other) : top(nullptr), size(0) {
 }
 
 Stack::~Stack() {
-    std::cout << "Stack destructor called\n";
+    std::cout << "Вызван деструктор класса Stack\n";
     while (top) {
         Node* temp = top;
         top = top->next;
@@ -36,7 +35,7 @@ void Stack::add(int value) {
 }
 
 void Stack::remove() {
-    if (!top) throw std::runtime_error("Cannot pop from empty Stack");
+    if (!top) throw std::runtime_error("Ошибка: Невозможно извлечь элемент из пустого стека (Stack)");
     Node* temp = top;
     top = top->next;
     delete temp;
@@ -44,7 +43,7 @@ void Stack::remove() {
 }
 
 void Stack::print() const {
-    std::cout << "Stack elements (top to bottom): ";
+    std::cout << "Элементы стека (Stack, сверху вниз): ";
     Node* current = top;
     while (current) {
         std::cout << current->data << " ";
@@ -74,14 +73,14 @@ void Stack::load(std::ifstream& in) {
 }
 
 void Stack::setValue(int index, int value) {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in Stack::setValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в Stack::setValue");
     Node* current = top;
     for (int i = 0; i < index; ++i) current = current->next;
     current->data = value;
 }
 
 int Stack::getValue(int index) const {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in Stack::getValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в Stack::getValue");
     Node* current = top;
     for (int i = 0; i < index; ++i) current = current->next;
     return current->data;

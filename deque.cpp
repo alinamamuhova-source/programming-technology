@@ -1,11 +1,11 @@
 #include "Deque.h"
 
 Deque::Deque() : head(nullptr), tail(nullptr), size(0) {
-    std::cout << "Deque default constructor called\n";
+    std::cout << "Вызван конструктор по умолчанию класса Deque\n";
 }
 
 Deque::Deque(const Deque& other) : head(nullptr), tail(nullptr), size(0) {
-    std::cout << "Deque copy constructor called\n";
+    std::cout << "Вызван конструктор копирования класса Deque\n";
     Node* current = other.head;
     while (current) {
         add(current->data);
@@ -14,7 +14,7 @@ Deque::Deque(const Deque& other) : head(nullptr), tail(nullptr), size(0) {
 }
 
 Deque::~Deque() {
-    std::cout << "Deque destructor called\n";
+    std::cout << "Вызван деструктор класса Deque\n";
     while (head) {
         Node* temp = head;
         head = head->next;
@@ -34,7 +34,7 @@ void Deque::add(int value) {
 }
 
 void Deque::remove() {
-    if (!head) throw std::runtime_error("Cannot remove from empty Deque");
+    if (!head) throw std::runtime_error("Ошибка: Невозможно удалить элемент из пустого дека (Deque)");
     Node* temp = head;
     head = head->next;
     if (!head) tail = nullptr;
@@ -54,7 +54,7 @@ void Deque::addFront(int value) {
 }
 
 void Deque::removeBack() {
-    if (!head) throw std::runtime_error("Cannot remove from empty Deque");
+    if (!head) throw std::runtime_error("Ошибка: Невозможно удалить элемент из пустого дека (Deque)");
     if (head == tail) {
         delete head;
         head = tail = nullptr;
@@ -69,7 +69,7 @@ void Deque::removeBack() {
 }
 
 void Deque::print() const {
-    std::cout << "Deque elements: ";
+    std::cout << "Элементы дека (Deque): ";
     Node* current = head;
     while (current) {
         std::cout << current->data << " ";
@@ -99,14 +99,14 @@ void Deque::load(std::ifstream& in) {
 }
 
 void Deque::setValue(int index, int value) {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in Deque::setValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в Deque::setValue");
     Node* current = head;
     for (int i = 0; i < index; ++i) current = current->next;
     current->data = value;
 }
 
 int Deque::getValue(int index) const {
-    if (index < 0 || index >= size) throw std::out_of_range("Index out of range in Deque::getValue");
+    if (index < 0 || index >= size) throw std::out_of_range("Ошибка: Индекс вне диапазона в Deque::getValue");
     Node* current = head;
     for (int i = 0; i < index; ++i) current = current->next;
     return current->data;
