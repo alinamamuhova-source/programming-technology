@@ -5,11 +5,11 @@
 
 Container::Container() : count(0), capacity(10) {
     items = new Base*[capacity];
-    std::cout << "Container default constructor called\n";
+    std::cout << "Вызван конструктор по умолчанию класса Container\n";
 }
 
 Container::Container(const Container& other) : count(other.count), capacity(other.capacity) {
-    std::cout << "Container copy constructor called\n";
+    std::cout << "Вызван конструктор копирования класса Container\n";
     items = new Base*[capacity];
     for (int i = 0; i < count; ++i) {
         if (other.items[i]->getType() == "List") items[i] = new List(*dynamic_cast<List*>(other.items[i]));
@@ -19,7 +19,7 @@ Container::Container(const Container& other) : count(other.count), capacity(othe
 }
 
 Container::~Container() {
-    std::cout << "Container destructor called\n";
+    std::cout << "Вызван деструктор класса Container\n";
     for (int i = 0; i < count; ++i) {
         delete items[i];
     }
@@ -38,7 +38,7 @@ void Container::addObject(Base* obj) {
 }
 
 void Container::removeObject(int index) {
-    if (index < 0 || index >= count) throw std::out_of_range("Index out of range in Container::removeObject");
+    if (index < 0 || index >= count) throw std::out_of_range("Ошибка: Индекс вне диапазона в Container::removeObject");
     delete items[index];
     for (int i = index; i < count - 1; ++i) {
         items[i] = items[i + 1];
@@ -48,7 +48,7 @@ void Container::removeObject(int index) {
 
 void Container::printAll() const {
     if (count == 0) {
-        std::cout << "Container is empty.\n";
+        std::cout << "Контейнер пуст.\n";
         return;
     }
     for (int i = 0; i < count; ++i) {
@@ -59,7 +59,7 @@ void Container::printAll() const {
 
 void Container::saveToFile(const std::string& filename) const {
     std::ofstream out(filename);
-    if (!out) throw std::runtime_error("Cannot open file for writing");
+    if (!out) throw std::runtime_error("Ошибка: Невозможно открыть файл для записи");
     out << count << "\n";
     for (int i = 0; i < count; ++i) {
         out << items[i]->getType() << "\n";
@@ -70,9 +70,8 @@ void Container::saveToFile(const std::string& filename) const {
 
 void Container::loadFromFile(const std::string& filename) {
     std::ifstream in(filename);
-    if (!in) throw std::runtime_error("Cannot open file for reading");
+    if (!in) throw std::runtime_error("Ошибка: Невозможно открыть файл для чтения");
     
-    // Очистка текущих данных
     for (int i = 0; i < count; ++i) delete items[i];
     delete[] items;
     
@@ -89,7 +88,7 @@ void Container::loadFromFile(const std::string& filename) {
         if (type == "List") obj = new List();
         else if (type == "Deque") obj = new Deque();
         else if (type == "Stack") obj = new Stack();
-        else throw std::runtime_error("Unknown type in file");
+        else throw std::runtime_error("Ошибка: Неизвестный тип объекта в файле");
         
         obj->load(in);
         addObject(obj);
@@ -98,7 +97,7 @@ void Container::loadFromFile(const std::string& filename) {
 }
 
 Base* Container::getObject(int index) {
-    if (index < 0 || index >= count) throw std::out_of_range("Index out of range in Container::getObject");
+    if (index < 0 || index >= count) throw std::out_of_range("Ошибка: Индекс вне диапазона в Container::getObject");
     return items[index];
 }
 

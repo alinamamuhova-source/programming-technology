@@ -6,6 +6,7 @@ private:
     Base** items;
     int count;
     int capacity;
+    
 public:
     Container();
     Container(const Container& other);

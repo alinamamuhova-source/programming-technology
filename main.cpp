@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <clocale>
 #include "Container.h"
 #include "List.h"
 #include "Deque.h"
@@ -11,26 +12,28 @@ void clearInput() {
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian"); // Включаем поддержку русского языка в консоли
+
     Container container;
     int choice;
 
     do {
-        std::cout << "\n=== MENU ===\n";
-        std::cout << "1. Add List\n";
-        std::cout << "2. Add Deque\n";
-        std::cout << "3. Add Stack\n";
-        std::cout << "4. Remove object by index\n";
-        std::cout << "5. Print all objects\n";
-        std::cout << "6. Work with an object\n";
-        std::cout << "7. Save to file\n";
-        std::cout << "8. Load from file\n";
-        std::cout << "0. Exit\n";
-        std::cout << "Choose: ";
+        std::cout << "\n=== ГЛАВНОЕ МЕНЮ ===\n";
+        std::cout << "1. Добавить Список (List)\n";
+        std::cout << "2. Добавить Дек (Deque)\n";
+        std::cout << "3. Добавить Стек (Stack)\n";
+        std::cout << "4. Удалить объект по индексу\n";
+        std::cout << "5. Вывести все объекты\n";
+        std::cout << "6. Работа с конкретным объектом\n";
+        std::cout << "7. Сохранить в файл\n";
+        std::cout << "8. Загрузить из файла\n";
+        std::cout << "0. Выход\n";
+        std::cout << "Выберите действие: ";
         std::cin >> choice;
 
         if (std::cin.fail()) {
             clearInput();
-            std::cout << "Invalid input!\n";
+            std::cout << "Ошибка ввода! Введите число.\n";
             continue;
         }
 
@@ -41,37 +44,37 @@ int main() {
                 case 3: container.addObject(new Stack()); break;
                 case 4: {
                     int idx;
-                    std::cout << "Enter index to remove: ";
+                    std::cout << "Введите индекс для удаления: ";
                     std::cin >> idx;
                     container.removeObject(idx);
-                    std::cout << "Removed.\n";
+                    std::cout << "Объект успешно удален.\n";
                     break;
                 }
                 case 5: container.printAll(); break;
                 case 6: {
                     int idx;
-                    std::cout << "Enter object index: ";
+                    std::cout << "Введите индекс объекта: ";
                     std::cin >> idx;
                     Base* obj = container.getObject(idx);
                     int action;
                     do {
-                        std::cout << "\n-- Working with " << obj->getType() << " --\n";
-                        std::cout << "1. Add number\n";
-                        std::cout << "2. Remove number\n";
-                        std::cout << "3. Print\n";
-                        std::cout << "4. Set value by index\n";
-                        std::cout << "5. Get value by index\n";
-                        if (obj->getType() == "Deque") std::cout << "6. Add to front\n7. Remove from back\n";
-                        std::cout << "0. Back to main menu\n";
-                        std::cout << "Choose: ";
+                        std::cout << "\n-- Работа с объектом: " << obj->getType() << " --\n";
+                        std::cout << "1. Добавить число\n";
+                        std::cout << "2. Удалить число\n";
+                        std::cout << "3. Вывести на экран\n";
+                        std::cout << "4. Установить значение по индексу\n";
+                        std::cout << "5. Получить значение по индексу\n";
+                        if (obj->getType() == "Deque") std::cout << "6. Добавить в начало\n7. Удалить с конца\n";
+                        std::cout << "0. Назад в главное меню\n";
+                        std::cout << "Выберите действие: ";
                         std::cin >> action;
 
-                        if (std::cin.fail()) { clearInput(); std::cout << "Invalid input!\n"; continue; }
+                        if (std::cin.fail()) { clearInput(); std::cout << "Ошибка ввода!\n"; continue; }
 
                         switch (action) {
                             case 1: {
                                 int val;
-                                std::cout << "Enter value: ";
+                                std::cout << "Введите значение: ";
                                 std::cin >> val;
                                 obj->add(val);
                                 break;
@@ -80,44 +83,44 @@ int main() {
                             case 3: obj->print(); break;
                             case 4: {
                                 int i, v;
-                                std::cout << "Enter index and value: ";
+                                std::cout << "Введите индекс и значение: ";
                                 std::cin >> i >> v;
                                 obj->setValue(i, v);
                                 break;
                             }
                             case 5: {
                                 int i;
-                                std::cout << "Enter index: ";
+                                std::cout << "Введите индекс: ";
                                 std::cin >> i;
-                                std::cout << "Value: " << obj->getValue(i) << "\n";
+                                std::cout << "Значение: " << obj->getValue(i) << "\n";
                                 break;
                             }
                             case 6:
                                 if (obj->getType() == "Deque") {
                                     int val;
-                                    std::cout << "Enter value: ";
+                                    std::cout << "Введите значение: ";
                                     std::cin >> val;
                                     dynamic_cast<Deque*>(obj)->addFront(val);
-                                } else std::cout << "Not supported\n";
+                                } else std::cout << "Действие не поддерживается для этого типа\n";
                                 break;
                             case 7:
                                 if (obj->getType() == "Deque") {
                                     dynamic_cast<Deque*>(obj)->removeBack();
-                                } else std::cout << "Not supported\n";
+                                } else std::cout << "Действие не поддерживается для этого типа\n";
                                 break;
                             case 0: break;
-                            default: std::cout << "Invalid choice!\n";
+                            default: std::cout << "Неверный пункт меню!\n";
                         }
                     } while (action != 0);
                     break;
                 }
-                case 7: container.saveToFile("data.txt"); std::cout << "Saved.\n"; break;
-                case 8: container.loadFromFile("data.txt"); std::cout << "Loaded.\n"; break;
-                case 0: std::cout << "Exiting...\n"; break;
-                default: std::cout << "Invalid choice!\n";
+                case 7: container.saveToFile("data.txt"); std::cout << "Данные сохранены в файл.\n"; break;
+                case 8: container.loadFromFile("data.txt"); std::cout << "Данные загружены из файла.\n"; break;
+                case 0: std::cout << "Выход из программы...\n"; break;
+                default: std::cout << "Неверный пункт меню!\n";
             }
         } catch (const std::exception& e) {
-            std::cout << "Exception caught: " << e.what() << "\n";
+            std::cout << "Перехвачено исключение: " << e.what() << "\n";
         }
 
     } while (choice != 0);
